@@ -2,13 +2,25 @@ from Deck import deck
 
 class player:
 
-    def __init__(self, name : str):
-        self.name : str = name
+    def __init__(self, name : str, cash : int):
+        self.name : str = str(name)
         self.hand : list = []
-        self.cash : int = 1000
+        self.cash : int = cash
 
     def __str__(self) -> str:
-        return self.name + "has $" + self.cash
+        return str(self.name) + "has $" + str(self.cash)
+    
+    def __repr__(self):
+        total_1, total_2 = [self.sumCards()[i] for i in range(2)]
+        if (self.blackJack()):
+            print(self.name + " got BlackJack!")
+        elif total_1 == total_2 or total_2 > 21:
+            print(self.name + "'s hand is: " + str(self.hand) + " with " + str(total_1))
+        elif total_1 > 21 and total_2 < 21:
+            print(self.name + "'s hand is: " + str(self.hand) + " with " + str(total_1))
+        else:
+            print(self.name + "'s hand is: " + str(self.hand) + " with " + str(total_1) + " or " + str(total_2))
+        return ""
 
 
     def dealHand(self, card_deck : deck) -> bool:
@@ -18,9 +30,17 @@ class player:
         return self.blackJack() #true if blackjack
 
     def sumCards(self) -> int:
-        total : int = 0
+        total : list = [0, 0]
         for card in self.hand:
-            total += int(card[0])
+            if(card[1] == 'J' or card[1] == 'Q' or card[1] == 'K' or len(card) == 3):
+                total[0] += 10
+                total[1] += 10
+            elif(card[1] == 'A'):
+                total[0] += 11
+                total[1] += 1
+            else:
+                total[0] += int(card[1])
+                total[1] += int(card[1])
         
         return total
     
@@ -30,7 +50,7 @@ class player:
         return self.sumCards(self) > 21 #returns true if bust
 
     def blackJack(self) -> bool: #true if blackjack
-        return (self.sumCards == 21
-                and int(self.hand[0][0]) != 10 
-                and int(self.hand[-1][0] != 10))  
+        return (self.sumCards()[0] == 21
+                and len(self.hand[0]) != 3 #checks for 10
+                and len(self.hand[1]) != 3)  #checks for 10
     
