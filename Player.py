@@ -1,3 +1,5 @@
+from Deck import Deck
+
 class Player:
 
     def __init__(self, name : str, cash : int):
@@ -21,7 +23,7 @@ class Player:
         return ""
 
 
-    def dealHand(self, card_deck : deck) -> bool:
+    def dealHand(self, card_deck : Deck) -> bool:
         for i in range(2):
             self.hand.append(card_deck.giveCard())
 
@@ -42,7 +44,7 @@ class Player:
         
         return total
     
-    def hit(self, card_deck : deck) -> bool:
+    def hit(self, card_deck : Deck) -> bool:
         self.hand.append(card_deck.giveCard())
         
         return self.sumCards(self) > 21 #returns true if bust
