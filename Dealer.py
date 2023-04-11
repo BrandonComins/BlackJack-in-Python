@@ -1,5 +1,5 @@
 from Player import Player
-from Deck import Deck
+
 class Dealer(Player):
     
     def __init__(self):
