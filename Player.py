@@ -1,6 +1,4 @@
-from Deck import deck
-
-class player:
+class Player:
 
     def __init__(self, name : str, cash : int):
         self.name : str = str(name)
@@ -53,4 +51,10 @@ class player:
         return (self.sumCards()[0] == 21
                 and len(self.hand[0]) != 3 #checks for 10
                 and len(self.hand[1]) != 3)  #checks for 10
+    
+    def bust(self):
+            total_1, total_2 = [self.sumCards[i] for i in range(2)]
+            return total_1 > 21 and total_2 > 21 #true if bust
+    
+    
     
