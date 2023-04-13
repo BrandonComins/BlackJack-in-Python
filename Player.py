@@ -6,6 +6,7 @@ class Player:
         self.name : str = str(name)
         self.hand : list = []
         self.cash : int = cash
+        self.payout : int = 0
 
     def __str__(self) -> str:
         return str(self.name) + "has $" + str(self.cash)
@@ -46,7 +47,7 @@ class Player:
         self.hand.append(card_deck.giveCard())
         total_1, total_2 = [self.sumCards()[i] for i in range(2)]
         
-        return (total_1 == 21, total_2 == 21, self.bust())  # true if player busts
+        return (total_1 == 21, total_2 == 21, self.bust()) 
 
     def blackJack(self) -> bool: #true if blackjack
         return (self.sumCards()[0] == 21

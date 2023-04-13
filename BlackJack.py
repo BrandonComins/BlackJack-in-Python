@@ -28,32 +28,45 @@ def getPlayers() -> list:
 
 
 def takeTurn(player : Player, deck : Deck):
-    choice = 0
-    while (True):
-        try:
-            choice = int(input(" 1. hit \n 2. stay \n Your move: "))
-            if choice == 1:
-                outcomes = player.hit(deck)
-                if outcomes[2]:
-                    print('\n' + str(player.name) + " busted!")
+    if(player.name != "Dealer"):
+        choice = 0
+        while (True):
+            try:
+                choice = int(input(" 1. hit \n 2. stay \n Your move: "))
+                if choice == 1:
+                    outcomes = player.hit(deck)
                     repr(player)
-                    break
-                elif outcomes[0] or outcomes[1]:
+                    if outcomes[2]:
+                        print('\n' + str(player.name) + " busted!")
+                        break
+                    elif outcomes[0] or outcomes[1]:
+                        print()
+                        break
+                elif choice == 2:
                     repr(player)
+                    print('\n' + str(player.name) + " stays!")
                     print()
                     break
-            elif choice == 2:
-                print('\n' + str(player.name) + " stays!")
-                repr(player)
-                print()
-                break
-            else:
-                raise ValueError
-        except ValueError:
-            print("Bad input, must be 1 or 2")
-            continue
+                else:
+                    raise ValueError
+            except ValueError:
+                print("Bad input, must be 1 or 2")
+                continue
+    else:
+        dealerTurn(player, deck)
         
-
+def dealerTurn(dealer : Player, deck : Deck):
+    repr(dealer)
+    while(True):
+        if(dealer.sumCards()[0] < 16 and dealer.sumCards()[1] < 16):
+            if(dealer.hit(deck)[2]):
+                print("Dealer busts!")
+                repr(dealer)
+                break
+            repr(dealer)
+        else:
+            repr(dealer)
+            break
     
 
 
