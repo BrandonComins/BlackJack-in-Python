@@ -47,7 +47,7 @@ class Player:
     def hit(self, card_deck : Deck) -> bool:
         self.hand.append(card_deck.giveCard())
         
-        return self.sumCards(self) > 21 #returns true if bust
+        return self.bust() # true if player busts
 
     def blackJack(self) -> bool: #true if blackjack
         return (self.sumCards()[0] == 21
@@ -55,7 +55,7 @@ class Player:
                 and len(self.hand[1]) != 3)  #checks for 10
     
     def bust(self):
-            total_1, total_2 = [self.sumCards[i] for i in range(2)]
+            total_1, total_2 = [self.sumCards()[i] for i in range(2)]
             return total_1 > 21 and total_2 > 21 #true if bust
     
     
