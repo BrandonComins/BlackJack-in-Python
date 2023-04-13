@@ -7,7 +7,7 @@ def getPlayers() -> list:
     while True:
         try:
             number_of_players : int = int(input("Enter the amount of players (1-4): "))
-             
+            print()
             if not(1 <= number_of_players <= 4):
                 raise InvalidPlayerError 
         except ValueError:
@@ -27,22 +27,31 @@ def getPlayers() -> list:
 
 
 
-def takeTurn(player : Player):
+def takeTurn(player : Player, deck : Deck):
     choice = 0
-    while (not player.bust or choice == 2):
-        choice = int(input("1. hit\n2.stay"))
+    while (True):
+        choice = int(input(" 1. hit \n 2. stay \n Your move: "))
         if choice == 1:
-            player.hit()
+            if player.hit(deck): #TODO: stop if one hand is 21
+                print('\n' + str(player.name) + " busted!")
+                repr(player)
+                break
+            repr(player)
+            print()
         elif choice == 2:
+            print('\n' + str(player.name) + " stays!")
+            repr(player)
+            print()
             break
         else:
             print("Bad input, must be 1 or 2")
             continue
+        
 
     
 
 
-def playGame(players : list, deck : Deck):
+def setUpGame(players : list, deck : Deck):
     players.append(Dealer())
     for player in players:
         player.dealHand(deck)
@@ -53,10 +62,12 @@ def playGame(players : list, deck : Deck):
     players[-1].showHand()
 
 
-
-
-
-
+def playGame(players: list, deck : Deck):
+    setUpGame(players, deck)
+    for player in players:
+        print('\n' + str(player.name) + "'s turn!")
+        takeTurn(player, deck)
+        
 
 if __name__ == "__main__":
     deck_of_cards = Deck()
