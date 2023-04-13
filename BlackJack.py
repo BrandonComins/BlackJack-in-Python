@@ -30,20 +30,26 @@ def getPlayers() -> list:
 def takeTurn(player : Player, deck : Deck):
     choice = 0
     while (True):
-        choice = int(input(" 1. hit \n 2. stay \n Your move: "))
-        if choice == 1:
-            if player.hit(deck): #TODO: stop if one hand is 21
-                print('\n' + str(player.name) + " busted!")
+        try:
+            choice = int(input(" 1. hit \n 2. stay \n Your move: "))
+            if choice == 1:
+                outcomes = player.hit(deck)
+                if outcomes[2]:
+                    print('\n' + str(player.name) + " busted!")
+                    repr(player)
+                    break
+                elif outcomes[0] or outcomes[1]:
+                    repr(player)
+                    print()
+                    break
+            elif choice == 2:
+                print('\n' + str(player.name) + " stays!")
                 repr(player)
+                print()
                 break
-            repr(player)
-            print()
-        elif choice == 2:
-            print('\n' + str(player.name) + " stays!")
-            repr(player)
-            print()
-            break
-        else:
+            else:
+                raise ValueError
+        except ValueError:
             print("Bad input, must be 1 or 2")
             continue
         
@@ -65,8 +71,12 @@ def setUpGame(players : list, deck : Deck):
 def playGame(players: list, deck : Deck):
     setUpGame(players, deck)
     for player in players:
-        print('\n' + str(player.name) + "'s turn!")
-        takeTurn(player, deck)
+        if not player.blackJack():
+            print('\n' + str(player.name) + "'s turn!")
+            takeTurn(player, deck)
+        else:
+            print(player.name, "got Black Jack!")
+            repr(player)
         
 
 if __name__ == "__main__":

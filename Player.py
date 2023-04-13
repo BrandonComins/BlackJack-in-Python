@@ -12,14 +12,12 @@ class Player:
     
     def __repr__(self):
         total_1, total_2 = [self.sumCards()[i] for i in range(2)]
-        if (self.blackJack()):
-            print(self.name + " got BlackJack!")
-        elif total_1 == total_2 or total_2 > 21:
-            print(self.name + "'s hand is: " + str(self.hand) + " with " + str(total_1))
+        if total_1 == total_2 or total_2 > 21:
+            print(self.name + "'s hand is: " + str(self.hand) + " : " + str(total_1))
         elif total_1 > 21 and total_2 < 21:
-            print(self.name + "'s hand is: " + str(self.hand) + " with " + str(total_1))
+            print(self.name + "'s hand is: " + str(self.hand) + " : " + str(total_1))
         else:
-            print(self.name + "'s hand is: " + str(self.hand) + " with " + str(total_1) + " or " + str(total_2))
+            print(self.name + "'s hand is: " + str(self.hand) + " : " + str(total_1) + " or " + str(total_2))
         return ""
 
 
@@ -46,8 +44,9 @@ class Player:
     
     def hit(self, card_deck : Deck) -> bool:
         self.hand.append(card_deck.giveCard())
+        total_1, total_2 = [self.sumCards()[i] for i in range(2)]
         
-        return self.bust() # true if player busts
+        return (total_1 == 21, total_2 == 21, self.bust())  # true if player busts
 
     def blackJack(self) -> bool: #true if blackjack
         return (self.sumCards()[0] == 21
