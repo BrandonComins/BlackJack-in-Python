@@ -80,16 +80,28 @@ def setUpGame(players : list, deck : Deck):
    
     players[-1].showHand()
 
+def payout():
+    pass
+
+def reset(players: list, deck : Deck):
+    deck.shuffle()
+    for player in players:
+        player.hand.clear()
+
 
 def playGame(players: list, deck : Deck):
-    setUpGame(players, deck)
-    for player in players:
-        if not player.blackJack():
-            print('\n' + str(player.name) + "'s turn!")
-            takeTurn(player, deck)
-        else:
-            print(player.name, "got Black Jack!")
-            repr(player)
+    while(True):
+        setUpGame(players, deck)
+        for player in players:
+            if not player.blackJack():
+                print('\n' + str(player.name) + "'s turn!")
+                takeTurn(player, deck)
+            else:
+                print(player.name, "got Black Jack!")
+                repr(player)
+        payout()
+        reset(players, deck)
+        print()
         
 
 if __name__ == "__main__":
